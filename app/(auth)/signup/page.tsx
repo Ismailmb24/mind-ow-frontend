@@ -28,7 +28,7 @@ export default function SignUpPage() {
             <br />
             <span className="text-blue-200/90">achieve more today.</span>
           </h1>
-          <p className="text-lg text-blue-200/90 max-w-md">
+          <p className="text-lg text-blue-200/90">
             Create your account to access powerful project management tools, collaborate with your team, and stay organized from day one.
           </p>
 

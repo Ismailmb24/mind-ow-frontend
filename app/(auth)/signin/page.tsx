@@ -40,11 +40,6 @@ export default function SignInPage() {
                     </div>
                
                     <div>
-                        <div className="flex gap-1 text-orange-400">
-                        {"★★★★★".split("").map((star, i) => (
-                            <span key={i}>★</span>
-                        ))}
-                        </div>
                         <p className="text-lg italic text-white/90">
                             "Finally, a tool that actually helps me focus instead of distracting me."
                         </p>
