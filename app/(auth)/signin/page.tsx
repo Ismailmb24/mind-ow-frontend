@@ -19,7 +19,7 @@ export default function SignInPage() {
 
         {/* Hero Text */}
         <div className="max-w-3xl space-y-6">
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight">
             Master your day,
             <br />
             <span className="text-blue-200/90">achieve your goals.</span>

@@ -13,13 +13,12 @@ export default function SignUpPage() {
   return (
     <div className="flex min-h-screen w-full">
       {/* Left Column - Branding */}
-      <div className="hidden w-1/2 flex-col justify-between bg-[#2d4a9e] p-12 text-white lg:flex">
+      <div className="hidden w-1/2 flex-col justify-between bg-[#1e3a8a] p-12 text-white lg:flex">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/20">
-            <CheckCircle2 className="h-5 w-5" />
+          <div className="flex items-center justify-center rounded-lg bg-white/20">
+            <Image src="/logo-dark.png" alt="Logo" width={170} height={170} />
           </div>
-          <span className="text-xl font-semibold">TaskApp</span>
         </div>
 
         {/* Hero Text */}
