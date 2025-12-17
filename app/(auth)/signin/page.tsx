@@ -4,6 +4,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { Eye, EyeOff, Lock, Mail } from "lucide-react"
 import Image from "next/image"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { Button } from "@/components/ui/button"
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -101,43 +103,39 @@ export default function SignInPage() {
                 <label className="text-sm font-medium text-gray-700" htmlFor="email">
                   Email address
                 </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="name@company.com"
-                    className="block w-full rounded-xl border border-gray-200 bg-gray-50 py-3 pl-10 pr-3 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:ring-offset-0"
-                  />
-                </div>
+                <InputGroup className="py-5">
+                    <InputGroupAddon>
+                        <Mail className="h-5 w-5" />
+                    </InputGroupAddon>
+                    <InputGroupInput
+                    id="email" 
+                    type="email" 
+                    placeholder="name@company.com" />
+                </InputGroup>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700" htmlFor="password">
                   Password
                 </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <Lock className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    className="block w-full rounded-xl border border-gray-200 bg-gray-50 py-3 pl-10 pr-10 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:ring-offset-0"
-                  />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="text-gray-400 hover:text-gray-600 focus:outline-none"
-                    >
-                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                    </button>
-                  </div>
-                </div>
+                <InputGroup className="py-5">
+                    <InputGroupAddon align="inline-start">
+                        <Lock className="h-5 w-5" />
+                    </InputGroupAddon>
+                    <InputGroupInput 
+                    id="password" 
+                    type={showPassword ? "text" : "password"} 
+                    placeholder="••••••••" />
+                    <InputGroupAddon align="inline-end">
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="text-gray-400 hover:text-gray-600 focus:outline-none"
+                        >
+                          {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
+                    </InputGroupAddon>
+                </InputGroup>
               </div>
 
               <div className="flex items-center justify-between">
@@ -156,9 +154,9 @@ export default function SignInPage() {
                 </Link>
               </div>
 
-              <button
+              <Button
                 type="submit"
-                className="group relative flex w-full justify-center rounded-xl bg-[#1e3a8a] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2"
+                className="group relative flex w-full justify-center rounded-lg bg-[#1e3a8a] px-4 py-5 text-sm font-semibold text-white transition-all hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2"
               >
                 Sign In
                 <svg
@@ -169,7 +167,7 @@ export default function SignInPage() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </button>
+              </Button>
             </form>
 
             <div className="text-center text-sm text-gray-500">
