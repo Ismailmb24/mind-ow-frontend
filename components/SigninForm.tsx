@@ -8,13 +8,23 @@ import { Button } from "@/components/ui/button"
 import { userSchema, UserInput } from "@/lib/validation/user"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { signIn } from "next-auth/react"
+import { Spinner } from "./ui/spinner"
 
 export default function SigninForm() {
     const [showPassword, setShowPassword] = useState(false)
+    const [isLoading, setLoading] = useState(false)
 
     // submit function
     const onSubmit = (data: UserInput) => {
-        console.log(data)
+      setLoading(true);
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+        redirectTo: "/"
+      }).then(() => {
+        setLoading(false);
+      })
     }
 
     const {
@@ -125,9 +135,13 @@ export default function SigninForm() {
 
               <Button
                 type="submit"
+                disabled={isLoading}
                 className="group relative flex w-full justify-center rounded-lg bg-[#1e3a8a] px-4 py-5 text-sm font-semibold text-white transition-all hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-offset-2"
               >
-                Sign In
+                {
+                  isLoading ? <Spinner className="mr-2 h-4 w-4 animate-spin" /> : 
+                (<>
+                <span>Sign In</span>
                 <svg
                   className="ml-2 -mr-1 h-4 w-4 transition-transform group-hover:translate-x-1"
                   fill="none"
@@ -136,6 +150,8 @@ export default function SigninForm() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
+                </>)
+                }
               </Button>
             </form>
 

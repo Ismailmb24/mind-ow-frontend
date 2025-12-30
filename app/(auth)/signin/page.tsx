@@ -1,8 +1,11 @@
 import Image from "next/image"
 import SigninForm from "@/components/SigninForm"
+import { auth } from "@/lib/auth/config"
 
-export default function SignInPage() {
-
+export default async function SignInPage() {
+  const session = await auth();
+  console.log(session);
+  
   return (
     <div className="flex min-h-screen w-full">
       {/* Left Column - Branding */}

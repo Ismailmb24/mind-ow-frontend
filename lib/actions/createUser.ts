@@ -1,4 +1,7 @@
-import { createUser, ExternalServiceError } from "../servcies/user";
+"use server";
+
+import { createUser} from "../services/user";
+import { ExternalServiceError } from "../services/ExternalServiceError";
 import { UserCreateInput } from "../validation/user";
 
 export async function createUserAction(userData: UserCreateInput) {
