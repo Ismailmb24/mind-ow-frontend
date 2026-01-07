@@ -1,14 +1,20 @@
 import NextAuth from "next-auth";
 import type { Session, User } from "next-auth";
+import type { Account } from "@auth/core/types";
 import type { JWT } from "@auth/core/jwt";
 import Credentials from "next-auth/providers/credentials";  
 import { userSchema } from "../validation/user";
-import { getMe, signInUser } from "../services/user";
+import googleSignIn, { getMe, signInUser } from "../services/user";
 import "./types"; // Import to register type extensions
 import { refreshToken } from "../services/refreshToken";
+import Google from "next-auth/providers/google";
+import { AxiosError } from "axios";
+
+
 
 const authConfig = {
     providers: [
+        Google,
         Credentials({
             credentials: {
                 email: {
@@ -47,7 +53,24 @@ const authConfig = {
         })
     ],
     callbacks: {
-        async jwt({token, user}: {token: JWT, user: User}) {
+        async jwt({token, user, account}: {token: JWT, user: User, account: Account}) {
+            // Check if user is authenticated through google provider
+            if(account?.provider === "google") {
+                try {
+                    const response = await googleSignIn(account.id_token as string);
+
+                    // Attach token data directly to the user object
+                    return {
+                        ...token,
+                        accessToken: response.access_token, 
+                        expiresAt: response.expires_at,
+                        refreshToken: response.refresh_token
+                    };              
+                } catch (error) { 
+                    return null;
+                }
+                
+            }
             if (user) {
                 // Attach token data directly to the token object
                 token.accessToken = user.accessToken as string;
@@ -61,16 +84,21 @@ const authConfig = {
             } else {
                 // Token has expired, clear it
                try {
+                console.log("refreshing token")
                 const response = await refreshToken(token.refreshToken);
                 token.accessToken = response.access_token;
                 token.expiresAt = response.expires_at;
                 token.refreshToken = response.refresh_token;
+                token.error = null;
 
                 return token;
                } catch (error) {
-                token.error = "RefreshTokenError";
+                if (error instanceof AxiosError) {
+                    console.log("Refresh token error: ", error.message)
+                    token.error = "RefreshTokenError";
 
-                return token;
+                    return token;
+                }
                }    
             }
         },

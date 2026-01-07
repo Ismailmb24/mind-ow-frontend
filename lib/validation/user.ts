@@ -12,5 +12,13 @@ export const userCreateSchema = userSchema.extend({
     path: ["confirmPassword"],
 })
 
+export const emailSchema = z.object({
+    email: z.email("Ivalid email address"),
+})
+
+export const resetPasswordSchema = userCreateSchema.omit({email: true})
+
 export type UserInput = z.infer<typeof userSchema>
 export type UserCreateInput = z.infer<typeof userCreateSchema>
+export type EmailInput = z.infer<typeof emailSchema>
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>

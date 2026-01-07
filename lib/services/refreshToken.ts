@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 
 export async function refreshToken(refresh_token: string) {
     try {
-        const response = await serverAxios.post("/refresh-token", {
+        const response = await serverAxios.post("/auth/refresh-token", {
             refresh_token: refresh_token
         });
 

@@ -2,8 +2,9 @@ import { serverAxios } from "../http/serverAxios";
 import { UserCreateInput, UserInput } from "../validation/user";
 import { AxiosError } from "axios";
 import { ExternalServiceError } from "./ExternalServiceError";
-import { cookies } from "next/headers";
 
+
+//create user
 export async function createUser(user: UserCreateInput) {
     try {
         //send user data to server
@@ -35,6 +36,7 @@ export async function createUser(user: UserCreateInput) {
     }
 }
 
+// sign in user
 export async function signInUser(user: UserInput) { 
     try {
         //convert user to form data
@@ -43,7 +45,7 @@ export async function signInUser(user: UserInput) {
         params.append("password", user.password);
 
         //send form data to server
-        const response = await serverAxios.post("/signin", params, {
+        const response = await serverAxios.post("/auth/signin", params, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             }
@@ -77,7 +79,39 @@ export async function signInUser(user: UserInput) {
         );
     }
 }
+// google sign in
+export default async function googleSignIn(token: string) {
+    console.log("google sign in");
+    try {
+        const response = await serverAxios.post("/auth/google-signin", {token});
 
+        return response.data;
+    } catch (error) {
+        if(error instanceof AxiosError) {
+            if (error.response?.status === 401) {
+                throw new ExternalServiceError(
+                    "AuthenticationError",
+                    "You are not authorized",
+                    error.response?.status || 500
+                )
+            }
+
+            throw new ExternalServiceError(
+                "ExternalServiceError",     
+                `Failed to sign in user`, 
+                error?.response?.status || 500
+            );
+        }
+
+        throw new ExternalServiceError(
+            "InternalError",     
+            `something went wrong`, 
+            500
+        );
+    }
+}
+
+// get authorized user
 export async function getMe(token: string) {
     try {
         const me = await serverAxios.get("/users/me", {

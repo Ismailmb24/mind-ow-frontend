@@ -11,11 +11,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { createUserAction } from "@/lib/actions/createUser"
 import { Toaster, toast } from "sonner"
 import { Spinner } from "./ui/spinner"
+import { useRouter } from "next/navigation"
 
 export default function SignupForm() {
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+
+    // router
+    const router = useRouter()
 
     //signup fundtion
     async function onSubmit(data: UserCreateInput) {
@@ -26,6 +30,7 @@ export default function SignupForm() {
       if (response.ok) {
           toast.success(response.message)
           setIsLoading(false)
+          router.push("/auth/email-verification")
       } else {
           toast.error(response.message)
           setIsLoading(false)
