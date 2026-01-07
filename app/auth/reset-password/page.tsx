@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ResetPasswordInput, resetPasswordSchema } from "@/lib/validation/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { resetPassword } from "@/lib/services/resetPassword";
 import { useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
