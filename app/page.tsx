@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
-import Image from "next/image";
+import { logout } from "@/lib/actions/signout";
 
 export default function Home() {
   return (
@@ -10,7 +9,10 @@ export default function Home() {
       <h1 className="yext-3xl">
         Hi there
       </h1>
-      <Button onClick={() => {signOut()}} className="text-red-500">singOut</Button>
+      <Button onClick={async () => {
+        await logout();
+        console.log("User signed out")
+      }} className="text-red-500">singOut</Button>
     </div>
   );
 }

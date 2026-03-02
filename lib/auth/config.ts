@@ -4,7 +4,8 @@ import type { Account } from "@auth/core/types";
 import type { JWT } from "@auth/core/jwt";
 import Credentials from "next-auth/providers/credentials";  
 import { userSchema } from "../validation/user";
-import googleSignIn, { getMe, signInUser } from "../services/user";
+import { getMe } from "../services/user";
+import { googleSignIn, signInUser } from "../services/auth";
 import "./types"; // Import to register type extensions
 import { refreshToken } from "../services/refreshToken";
 import Google from "next-auth/providers/google";
@@ -59,7 +60,7 @@ const authConfig = {
                 try {
                     const response = await googleSignIn(account.id_token as string);
 
-                    // Attach token data directly to the user object
+                    // Attach user data directly to the token object
                     return {
                         ...token,
                         accessToken: response.access_token, 
@@ -72,7 +73,7 @@ const authConfig = {
                 
             }
             if (user) {
-                // Attach token data directly to the token object
+                // Attach user data directly to the token object
                 token.accessToken = user.accessToken as string;
                 token.expiresAt = user.expiresAt;
                 token.refreshToken = user.refreshToken;
@@ -106,6 +107,7 @@ const authConfig = {
             // Attach token data directly to the session object
             if (token) {
                 session.accessToken = token.accessToken as string;
+                session.refreshToken = token.refreshToken as string;
                 session.error = token.error;
             }
 

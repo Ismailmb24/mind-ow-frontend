@@ -3,7 +3,13 @@
 declare module "next-auth" {
     interface Session {
         accessToken: string;
+        refreshToken: string;
         error?: "RefreshTokenError" | null;
+        user?: {
+            email: string;
+            name?: string;
+            image?: string;
+        }
     }
 
     interface User {
